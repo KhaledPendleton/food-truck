@@ -1,7 +1,7 @@
 defmodule FoodTruck.Repo.Migrations.CreateLocations do
   use Ecto.Migration
 
-  def change do
+  def up do
     create table(:locations) do
       add :description, :string
       add :facility_type, :string, default: "truck"
@@ -18,5 +18,12 @@ defmodule FoodTruck.Repo.Migrations.CreateLocations do
 
     create index(:locations, :street)
     create index(:locations, :facility_type)
+  end
+
+  def down do
+    drop index(:locations, :street)
+    drop index(:locations, :facility_type)
+    drop index(:locations, :coordinates, name: :location_coordinates_index)
+    drop table(:locations)
   end
 end
