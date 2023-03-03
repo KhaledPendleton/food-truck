@@ -3,7 +3,7 @@ defmodule FoodTruck.Repo.Migrations.CreateLocations do
 
   def up do
     create table(:locations) do
-      add :description, :string
+      add :description, :text
       add :facility_type, :string, default: "truck"
       add :street, :string, default: "n/a"
       add :city, :string
