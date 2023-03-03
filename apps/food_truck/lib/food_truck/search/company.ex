@@ -16,6 +16,5 @@ defmodule FoodTruck.Search.Company do
     company
     |> cast(attrs, [:name])
     |> validate_required([:name])
-    |> cast_assoc(:locations, with: &Search.Location.changeset/2)
   end
 end
