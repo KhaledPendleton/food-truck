@@ -20,7 +20,7 @@ defmodule FoodTruck.Search.Offering do
   @doc false
   def valid_offerings_query(potential_offerings) do
     from(
-      o in "offerings",
+      o in __MODULE__,
       where: o.content in ^potential_offerings,
       select: o
     )
