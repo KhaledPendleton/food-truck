@@ -1,6 +1,9 @@
 defmodule FoodTruck.Search.Location do
   use Ecto.Schema
-  import Ecto.Changeset
+
+  import Ecto.{Changeset, Query}
+  import Geo.PostGIS
+
   alias FoodTruck.Search
 
   schema "locations" do
@@ -24,8 +27,26 @@ defmodule FoodTruck.Search.Location do
     |> validate_required([:description, :facility_type, :street, :city, :coordinates])
   end
 
+  @doc false
   defp cast_coordinates(changeset, attrs) do
     %{lat: lat, lon: lon} = attrs.coordinates
     put_change(changeset, :coordinates, %Geo.Point{coordinates: {lon, lat}, srid: 4326})
+  end
+
+  @doc false
+  def closest_query(%Geo.Point{} = location, limit) do
+    from(
+      l in __MODULE__,
+      limit: ^limit,
+      order_by: st_distance(l.coordinates, ^location)
+    )
+  end
+
+  @doc false
+  def in_radius_query(%Geo.Point{} = center, radius_in_meters) do
+    from(
+      l in __MODULE__,
+      where: st_dwithin_in_meters(l.coordinates, ^center, ^radius_in_meters)
+    )
   end
 end
