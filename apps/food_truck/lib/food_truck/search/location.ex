@@ -11,6 +11,7 @@ defmodule FoodTruck.Search.Location do
     field :coordinates, Geo.PostGIS.Geometry
 
     belongs_to :company, Search.Company
+    many_to_many :offerings, Search.Offering, join_through: "locations_offerings"
 
     timestamps()
   end
