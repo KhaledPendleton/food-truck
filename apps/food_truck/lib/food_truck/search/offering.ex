@@ -1,6 +1,6 @@
 defmodule FoodTruck.Search.Offering do
   use Ecto.Schema
-  import Ecto.Changeset
+  import Ecto.{Changeset, Query}
   alias FoodTruck.Search
 
   schema "offerings" do
@@ -15,5 +15,14 @@ defmodule FoodTruck.Search.Offering do
     offering
     |> cast(attrs, [:content])
     |> validate_required([:content])
+  end
+
+  @doc false
+  def valid_offerings_query(potential_offerings) do
+    from(
+      o in "offerings",
+      where: o.content in ^potential_offerings,
+      select: o
+    )
   end
 end
