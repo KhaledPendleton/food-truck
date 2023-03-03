@@ -18,7 +18,7 @@ defmodule FoodTruck.Search do
   end
 
   def locations_with_offering(%Search.Offering{} = offering) do
-    offering = offering |> Repo.preload(locations: :company)
+    offering = offering |> Repo.preload(locations: [:company, :offerings])
     offering.locations
   end
 
@@ -26,11 +26,20 @@ defmodule FoodTruck.Search do
     offering =
       Search.Offering
       |> Repo.get_by(content: offering)
-      |> Repo.preload(locations: :company)
+      |> Repo.preload(locations: [:company, :offerings])
 
     case offering do
       %Search.Offering{} -> offering.locations
       nil -> []
     end
+  end
+
+  def locations_by_owner(name) when is_binary(name) do
+    company =
+      Search.Company
+      |> Repo.get_by(name: name)
+      |> Repo.preload(locations: :offerings)
+
+    company.locations
   end
 end
