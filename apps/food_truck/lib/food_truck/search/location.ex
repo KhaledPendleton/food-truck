@@ -5,8 +5,8 @@ defmodule FoodTruck.Search.Location do
 
   schema "locations" do
     field :description, :string
-    field :facility_type, :string
-    field :street, :string
+    field :facility_type, :string, default: "truck"
+    field :street, :string, default: "n/a"
     field :city, :string
     field :coordinates, Geo.PostGIS.Geometry
 
