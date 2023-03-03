@@ -43,7 +43,9 @@ defmodule FoodTruck.MixProject do
       {:jason, "~> 1.2"},
       {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},
-      {:csv, "~> 3.0"}
+      {:csv, "~> 3.0"},
+      {:geo, "~> 3.4.0"},
+      {:geo_postgis, "~> 3.4.0"}
     ]
   end
 
